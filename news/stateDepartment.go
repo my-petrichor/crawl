@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/gocolly/colly"
+	"github.com/gocolly/colly/v2"
 )
 
 const (
