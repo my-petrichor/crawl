@@ -7,11 +7,7 @@ import (
 	"sync"
 
 	"github.com/gocolly/colly/v2"
-)
-
-const (
-	stateDepartmentNews     = "国务院要闻.txt"
-	stateDepartmentPolicies = "国务院政策.txt"
+	"github.com/my-Sakura/crawl/config"
 )
 
 var (
@@ -123,7 +119,7 @@ func stateDepartmentPoliciesCrawl(date string) {
 
 func stateDepartmentNewsCreate(wg *sync.WaitGroup) {
 	count := 1
-	file, err := os.Create(stateDepartmentNews)
+	file, err := os.Create(config.Conf.StateDepartmentNews)
 	defer file.Close()
 	if err != nil {
 		fmt.Println("file create err", err)
@@ -146,7 +142,7 @@ func stateDepartmentNewsCreate(wg *sync.WaitGroup) {
 
 func stateDepartmentPoliciesCreate(wg *sync.WaitGroup) {
 	count := 1
-	file, err := os.Create(stateDepartmentPolicies)
+	file, err := os.Create(config.Conf.StateDepartmentPolicies)
 	defer file.Close()
 	if err != nil {
 		fmt.Println("stateDepartmentPoliciesCreate error: ", err)

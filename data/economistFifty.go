@@ -7,11 +7,11 @@ import (
 	"sync"
 
 	"github.com/gocolly/colly/v2"
+	"github.com/my-Sakura/crawl/config"
 )
 
 var (
 	economistURL       = "http://www.50forum.org.cn/home/"
-	economist          = "经济50人.csv"
 	economistFiftyData = make(chan []string)
 	economistFinish    = make(chan interface{})
 )
@@ -75,7 +75,7 @@ func economistCrawl() {
 }
 
 func economistCreate(wg *sync.WaitGroup) {
-	file, err := os.Create(economist)
+	file, err := os.Create(config.Conf.Economist)
 	defer file.Close()
 	if err != nil {
 		fmt.Printf("fileCreateError: %v\n", err)

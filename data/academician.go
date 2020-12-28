@@ -8,10 +8,10 @@ import (
 	"sync"
 
 	"github.com/gocolly/colly/v2"
+	"github.com/my-Sakura/crawl/config"
 )
 
 var (
-	academician           = "院士.txt"
 	academicianURL        = "http://www.casad.cas.cn/ysxx2017/ysmdyjj/qtysmd_124280/"
 	academicianDepartment = make(chan string)
 	academicianName       = make(chan string)
@@ -59,7 +59,7 @@ func academicianCrawl() {
 }
 
 func academicianCreate(wg *sync.WaitGroup) {
-	file, _ := os.Create(academician)
+	file, _ := os.Create(config.Conf.Academician)
 	defer file.Close()
 
 	for {
