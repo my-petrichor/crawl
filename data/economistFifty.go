@@ -22,7 +22,9 @@ func economistCrawl() {
 	var academy string
 	flag := true
 
-	c := colly.NewCollector()
+	c := colly.NewCollector(
+		colly.UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"),
+	)
 
 	c.OnHTML("div.f_people", func(e *colly.HTMLElement) {
 		//there are two div.f_people element

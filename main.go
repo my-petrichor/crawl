@@ -18,7 +18,6 @@ var (
 )
 
 func main() {
-	config.Set()
 	c := cron.New()
 
 	c.AddFunc("0 0 9,12,18 ? *", start)
@@ -28,6 +27,7 @@ func main() {
 }
 
 func start() {
+	config.Set()
 	now := time.Now()
 	date := now.Format("2006-01-02")
 	wg.Add(worker)

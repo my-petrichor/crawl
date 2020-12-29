@@ -22,7 +22,9 @@ var (
 func academicianCrawl() {
 	reg := regexp.MustCompile("[1-9]+")
 	var count int
-	c := colly.NewCollector()
+	c := colly.NewCollector(
+		colly.UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"),
+	)
 
 	c.OnHTML("dl#allNameBar", func(e *colly.HTMLElement) {
 

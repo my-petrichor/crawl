@@ -16,7 +16,7 @@ type Config struct {
 var Conf = new(Config)
 
 func Set() {
-	viper.SetConfigFile("config/conf/test.yaml")
+	viper.SetConfigFile("./config/conf/test.yaml")
 
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
