@@ -11,12 +11,13 @@ type Config struct {
 	StateDepartmentPolicies string `mapstructure: "stateDepartmentPolicies`
 	Economist               string `mapstructure: "economist`
 	Academician             string `mapstructure: "academician`
+	ProxySource             string `mapstructure: "proxySource`
 }
 
 var Conf = new(Config)
 
 func Set() {
-	viper.SetConfigFile("./config/conf/test.yaml")
+	viper.SetConfigFile("./config.yaml")
 
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"sync"
+	"time"
 
 	"github.com/gocolly/colly/v2"
 	"github.com/my-Sakura/crawl/config"
@@ -26,6 +27,8 @@ func economistCrawl() {
 		colly.UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"),
 	)
 
+	c1 := c.Clone()
+
 	c.OnHTML("div.f_people", func(e *colly.HTMLElement) {
 		//there are two div.f_people element
 		//so exclude the one
@@ -36,11 +39,11 @@ func economistCrawl() {
 		e.ForEach("a[href]", func(_ int, element *colly.HTMLElement) {
 			link := element.Attr("href")
 
-			c.Visit(element.Request.AbsoluteURL(link))
+			c1.Visit(element.Request.AbsoluteURL(link))
 		})
 	})
 
-	c.OnHTML("div.people_intro", func(e *colly.HTMLElement) {
+	c1.OnHTML("div.people_intro", func(e *colly.HTMLElement) {
 		//get Index
 		name = e.DOM.Find("p").Eq(0).Text()
 		var basePoint int
@@ -68,11 +71,18 @@ func economistCrawl() {
 	})
 
 	c.OnRequest(func(r *colly.Request) {
+		r.ProxyURL = "http://192.168.0.102:7890"
+		fmt.Printf("visiting => %s\n", r.URL.String())
+	})
+
+	c1.OnRequest(func(r *colly.Request) {
+		r.ProxyURL = "http://192.168.0.102:7890"
 		fmt.Printf("visiting => %s\n", r.URL.String())
 	})
 
 	c.Visit(economistURL)
 
+	time.Sleep(time.Second)
 	close(economistFinish)
 }
 

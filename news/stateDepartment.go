@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 	"sync"
+	"time"
 
 	"github.com/gocolly/colly/v2"
 	"github.com/my-Sakura/crawl/config"
@@ -31,16 +32,18 @@ func stateDepartmentNewsCrawl(date string) {
 		colly.UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"),
 	)
 
+	c1 := c.Clone()
+
 	c.OnHTML("div.news_box", func(e *colly.HTMLElement) {
 		e.ForEach("h4", func(_ int, element *colly.HTMLElement) {
 			if element.ChildText("span.date") == date {
 				link := element.ChildAttr("a[href]", "href")
-				c.Visit(element.Request.AbsoluteURL(link))
+				c1.Visit(element.Request.AbsoluteURL(link))
 			}
 		})
 	})
 
-	c.OnHTML("div.content", func(e *colly.HTMLElement) {
+	c1.OnHTML("div.content", func(e *colly.HTMLElement) {
 		title = e.DOM.Find("h1").Text()
 		mainNewsTitle <- title
 
@@ -58,10 +61,19 @@ func stateDepartmentNewsCrawl(date string) {
 	})
 
 	c.OnRequest(func(r *colly.Request) {
+		r.ProxyURL = "http://192.168.0.102:7890"
+		fmt.Printf("visiting => %s\n", r.URL.String())
+	})
+
+	c1.OnRequest(func(r *colly.Request) {
+		r.ProxyURL = "http://192.168.0.102:7890"
+		fmt.Println(r.ProxyURL, "----------")
 		fmt.Printf("visiting => %s\n", r.URL.String())
 	})
 
 	c.Visit(stateDepartmentNewsURL)
+
+	time.Sleep(time.Second)
 
 	close(mainNewsFinish)
 }

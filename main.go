@@ -6,7 +6,6 @@ import (
 
 	"github.com/my-Sakura/crawl/config"
 	"github.com/my-Sakura/crawl/news"
-	"github.com/robfig/cron"
 )
 
 const (
@@ -18,16 +17,18 @@ var (
 )
 
 func main() {
-	c := cron.New()
+	// c := cron.New()
 
-	c.AddFunc("0 0 9,12,18 ? *", start)
+	// c.AddFunc("0 0 9,12,18 ? *", start)
 
-	c.Start()
-	select {}
+	// c.Start()
+	// select {}
+	start()
 }
 
 func start() {
 	config.Set()
+
 	now := time.Now()
 	date := now.Format("2006-01-02")
 	wg.Add(worker)
