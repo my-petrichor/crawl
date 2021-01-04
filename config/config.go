@@ -17,7 +17,7 @@ type Config struct {
 var Conf = new(Config)
 
 func Set() {
-	viper.SetConfigFile("./config.yaml")
+	viper.SetConfigFile("../config.yaml")
 
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
@@ -30,12 +30,4 @@ func Set() {
 	if err := viper.Unmarshal(Conf); err != nil {
 		panic(fmt.Sprintf("unmarshal error %v\n", err))
 	}
-
-	// viper.WatchConfig()
-
-	// viper.OnConfigChange(func(in fsnotify.Event) {
-	// 	if err := viper.Unmarshal(Conf); err != nil {
-	// 		panic(fmt.Sprintf("unmarshal error %v\n", err))
-	// 	}
-	// })
 }
